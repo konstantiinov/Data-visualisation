@@ -83,7 +83,7 @@ function createChartForTable2(visualization1) {
       const cellData = parseFloat(row.cells[j].innerText);
 
       if (i === 1) {
-        const setLabel = j === 2 ? "2007-09" : "2010-12"; // Set the appropriate label for each dataset
+        const setLabel = j === 2 ? "2007-09" : "2010-12";
         datasets.push({
           label: setLabel,
           data: [cellData],
