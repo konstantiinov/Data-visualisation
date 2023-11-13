@@ -14,8 +14,8 @@ This task required us to fetch data from HTML and PHP files and display the data
 - Ajax
 
 ## Development
-- git cloned the project
-- Launch it with Visual Studio Code live server
+- Git cloned the project
+- Launched it with Visual Studio Code live server
 
 ## Copyright
 All rights reserved - 13/11/23
