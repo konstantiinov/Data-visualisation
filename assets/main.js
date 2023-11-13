@@ -75,14 +75,17 @@ function createChartForTable2(visualization1) {
 
   for (let i = 1; i < table.rows.length; i++) {
     const row = table.rows[i];
-    labels.push(row.cells[1].innerText);
+    const countryName = row.cells[1].innerText;
+
+    labels.push(countryName);
 
     for (let j = 2; j < row.cells.length; j++) {
       const cellData = parseFloat(row.cells[j].innerText);
 
       if (i === 1) {
+        const setLabel = j === 2 ? "2007-09" : "2010-12"; // Set the appropriate label for each dataset
         datasets.push({
-          label: row.cells[j].innerText,
+          label: setLabel,
           data: [cellData],
           backgroundColor: `rgba(${Math.floor(
             Math.random() * 256
