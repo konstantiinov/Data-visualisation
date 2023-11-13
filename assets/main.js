@@ -1,3 +1,5 @@
+//first two charts for part one of the exercis
+
 function createChartForTable1(myChart) {
   const table = document.getElementById("table1");
 
@@ -123,6 +125,8 @@ function createChartForTable2(visualization1) {
 createChartForTable1("myChart");
 createChartForTable2("visualization1");
 
+//third chart for the 2nd part of the exercise
+
 const canvas = document.createElement("canvas");
 canvas.id = "realTimeChart";
 canvas.width = 600;
@@ -131,64 +135,65 @@ canvas.height = 400;
 const mainTitle = document.querySelector("h1");
 mainTitle.insertAdjacentElement("afterend", canvas);
 
+let dataPoints = [];
+const ctx = document.getElementById("realTimeChart").getContext("2d");
+let myChart;
+
 function fetchDataAndUpdateChart() {
   fetch("https://canvasjs.com/services/data/datapoints.php")
     .then((response) => response.json())
     .then((data) => {
-      updateChart(data);
+      console.log("Fetched Data:", data);
+      dataPoints = data;
+      updateChart();
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
 }
 
-function updateChart(data) {
-  const labels = data.map((point) => point[0]);
-  const values = data.map((point) => point[1]);
+function updateChart() {
+  console.log("Update Chart with Data:", dataPoints);
 
-  const ctx = document.getElementById("realTimeChart").getContext("2d");
+  const labels = dataPoints.map((point) => point[0]);
+  const values = dataPoints.map((point) => point[1]);
+
+  console.log("Labels:", labels);
+  console.log("Values:", values);
 
   try {
-    if (!window.myChart) {
-      window.myChart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: "Real-time Data",
-              data: values,
-              borderColor: "blue",
-              backgroundColor: "rgba(0, 0, 255, 0.1)",
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            xAxis: {
-              type: "time",
-              time: {
-                displayFormats: {
-                  second: "h:mm:ss a",
-                },
-              },
-            },
-            yAxis: {
-              beginAtZero: true,
-            },
+    if (myChart) {
+      myChart.destroy();
+    }
+
+    myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "Line 1",
+            data: values,
+            borderColor: "blue",
+            backgroundColor: "rgba(0, 0, 255, 0.1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          x: {
+            type: "linear",
+          },
+          y: {
+            beginAtZero: true,
           },
         },
-      });
-    } else {
-      window.myChart.data.labels = labels;
-      window.myChart.data.datasets[0].data = values;
-      window.myChart.update();
-    }
+      },
+    });
   } catch (error) {
     console.error("Error initializing Chart:", error);
   }
 }
 
 setInterval(fetchDataAndUpdateChart, 1000);
-fetchDataAndUpdateChart();
